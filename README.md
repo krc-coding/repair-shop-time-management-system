@@ -1,5 +1,7 @@
 # Project:
 
+- Deadline: 25 november starter Jakob på svendeprøve, og 12 december skal han op til eksamen.
+
 A auto repair shop time management system.
 
 This project consists of a backend server + frontend web page, which allows mechanics to easily manage time taking aspects of working on specific cars.
@@ -44,3 +46,13 @@ graph TD;
 - see all timers for a given car.
 - select a car by the car plate.
 - register a new car by plate.
+- åben/luk port på arbejds station. (low priority)
+- styring af lys (low priority)
+- note felt, som er tilknyttet bilen, hvor man kan skrive bemærkninger til arbejde (optional)
+- sæt arbejds status. (WIP, done)
+
+# manager side:
+
+- kan se alle biler samt deres timers (samlet arbejds tid, tid på lift, status på arbejde)
+- manager kan ikke justere timers
+- knx optional
