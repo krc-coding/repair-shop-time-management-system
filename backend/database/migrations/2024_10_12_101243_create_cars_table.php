@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
             $table->string('plate')->unique();
-            $table->string('status'); // Not started | In progress | Done
-            $table->text('notes');
+            $table->string('status')->default('Not-started'); // Not-started | In-progress | Done
+            $table->text('notes')->default('');
             $table->timestamps();
         });
     }
