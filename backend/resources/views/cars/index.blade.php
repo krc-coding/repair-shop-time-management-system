@@ -6,12 +6,12 @@
     </x-slot>
 
     <div class="py-12">
-        <form method="POST" action="{{ route('cars.register') }}" class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <form method="POST" action="{{ route('cars.register') }}" class="max-w-7xl flex gap-4 m-auto">
             @csrf
 
-            <x-text-input name="plate" placeholder="AB 123 45" />
+            <x-text-input name="plate" placeholder="AB 12 345" pattern="[a-z]{2} \d{2} \d{3}" />
 
-            <x-primary-button>Register car</x-primary-button>
+            <x-primary-button class="h-10">Register car</x-primary-button>
         </form>
 
         <div class="max-w-7xl mx-auto bg-white mt-4 shadow rounded">
@@ -21,7 +21,7 @@
 
                     <div class="flex-1"></div>
 
-                    <div onclick="timers{{ $car->id }}.style.display = timers{{ $car->id }}.style.display === 'block' ? 'none' : 'block'" class="flex gap-2 cursor-pointer select-none">
+                    <div onclick="timers{{ $car->id }}.style.display = getComputedStyle(timers{{ $car->id }}).display === 'block' ? 'none' : 'block'" class="flex gap-2 cursor-pointer select-none">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
@@ -51,6 +51,34 @@
                             </svg>
 
                             Timers
+
+                            @if (count($car->timers))
+                                <table class="mt-4">
+                                    <tr>
+                                        <th class="border border-gray-300 py-2 px-4">Type</th>
+                                        <th class="border border-gray-300 py-2 px-4">Start</th>
+                                        <th class="border border-gray-300 py-2 px-4">End</th>
+                                    </tr>
+                                    @foreach ($car->timers as $timer)
+                                        <tr>
+                                            <td class="border border-gray-300 py-2 px-4">{{ ucfirst($timer->type) }}</td>
+                                            <td class="border border-gray-300 py-2 px-4">{{ $timer->start_time }}</td>
+                                            <td class="border border-gray-300 py-2 px-4">{{ $timer->end_time }}</td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            @endif
+
+                            <form method="POST" action="{{ route('timers.create', $car) }}" class="flex gap-4 mt-4">
+                                @csrf
+
+                                <select name="type" class="border-gray-300 rounded shadow-sm">
+                                    <option value="normal">Normal</option>
+                                    <option value="lift">Lift</option>
+                                </select>
+
+                                <x-primary-button class="h-10">Create</x-primary-button>
+                            </form>
                         </p>
                     </div>
                 </div>

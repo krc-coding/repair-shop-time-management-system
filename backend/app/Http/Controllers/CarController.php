@@ -10,7 +10,7 @@ class CarController extends Controller
     public function index()
     {
         return view('cars.index', [
-            'cars' => Car::all(),
+            'cars' => Car::with('timers')->get(),
         ]);
     }
 
@@ -21,7 +21,7 @@ class CarController extends Controller
         ]);
 
         $car = Car::create([
-            'plate' => $request->plate
+            'plate' => strtoupper($request->plate),
         ]);
 
         return redirect()->route('cars.index');

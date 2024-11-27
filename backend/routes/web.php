@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/update/car/status', [CarController::class, 'updateCarStatus'])->name('cars.update-status');
 
     Route::get('/timers', [TimerController::class, 'index'])->name('timers.index');
+    Route::post('/cars/{car}/timers', [TimerController::class, 'createTimerForCar'])->name('timers.create');
 });
 
 require __DIR__.'/auth.php';
