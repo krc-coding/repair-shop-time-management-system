@@ -73,6 +73,7 @@
                                         <th class="border border-gray-300 py-2 px-4">Type</th>
                                         <th class="border border-gray-300 py-2 px-4">Start</th>
                                         <th class="border border-gray-300 py-2 px-4">End</th>
+                                        <th class="border border-gray-300 py-2 px-4">Total</th>
                                         <th class="border border-gray-300 py-2 px-4"></th>
                                     </tr>
                                     @foreach ($car->timers as $timer)
@@ -80,6 +81,7 @@
                                             <td class="border border-gray-300 py-2 px-4">{{ ucfirst($timer->type) }}</td>
                                             <td class="border border-gray-300 py-2 px-4">{{ $timer->start_time }}</td>
                                             <td class="border border-gray-300 py-2 px-4">{{ $timer->end_time }}</td>
+                                            <td class="border border-gray-300 py-2 px-4">{{ $timer->end_time?->diffForHumans($timer->start_time, true) }}</td>
                                             <td class="border border-gray-300 py-2 px-4">
                                                 <form method="POST" action="{{ route('timers.stop', $car) }}">
                                                     @csrf
