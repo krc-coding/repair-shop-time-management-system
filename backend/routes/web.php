@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\TimerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,7 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cars/{car}/unregister', [CarController::class, 'unregisterCar'])->name('cars.unregister');
     Route::put('/update/car/status', [CarController::class, 'updateCarStatus'])->name('cars.update-status');
 
-    Route::get('/timers', fn () => view('welcome'))->name('timers.index');
+    Route::get('/timers', [TimerController::class, 'index'])->name('timers.index');
 });
 
 require __DIR__.'/auth.php';
