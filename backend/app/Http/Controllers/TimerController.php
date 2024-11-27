@@ -37,22 +37,19 @@ class TimerController extends Controller
         return redirect(route('cars.index') . '#timers' . $car->id);
     }
 
-    public function stopTimer(Request $request, string $type, Car $car)
+    public function stopTimer(Request $request, Car $car)
     {
-        $request->merge([
-            'type' => $type,
-        ]);
         $request->validate([
             'type' => 'in:lift,normal'
         ]);
 
-        $timer = Timer::where('timer_id', $car->plate)->where('type', $type)->whereNull('end_time')->first();
+        $timer = Timer::where('timer_id', $car->plate)->whereNull('end_time')->first();
         if (!$timer) {
-            return response()->json(['message' => 'No active timer'], 400);
+            return redirect()->back()->withErrors('No active timer');
         }
         $timer->end_time = now();
         $timer->save();
 
-        return response()->json($timer->toArray());
+        return redirect(route('cars.index') . '#timers' . $car->id);
     }
 }

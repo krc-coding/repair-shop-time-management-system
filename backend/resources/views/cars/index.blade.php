@@ -6,6 +6,21 @@
     </x-slot>
 
     <div class="py-12">
+
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                <dialog open class="static border border-red-500 text-red-700 bg-red-200 px-4 py-2 rounded mb-4 max-w-7xl mx-auto w-full">
+                    <span>{{ $error }}</span>
+
+                    <form method="dialog" class="float-right">
+                        <button>&times;</button>
+                    </form>
+
+                    <div class="clear-both"></div>
+                </dialog>
+            @endforeach
+        @endif
+
         <form method="POST" action="{{ route('cars.register') }}" class="max-w-7xl flex gap-4 m-auto">
             @csrf
 
@@ -58,12 +73,20 @@
                                         <th class="border border-gray-300 py-2 px-4">Type</th>
                                         <th class="border border-gray-300 py-2 px-4">Start</th>
                                         <th class="border border-gray-300 py-2 px-4">End</th>
+                                        <th class="border border-gray-300 py-2 px-4"></th>
                                     </tr>
                                     @foreach ($car->timers as $timer)
                                         <tr>
                                             <td class="border border-gray-300 py-2 px-4">{{ ucfirst($timer->type) }}</td>
                                             <td class="border border-gray-300 py-2 px-4">{{ $timer->start_time }}</td>
                                             <td class="border border-gray-300 py-2 px-4">{{ $timer->end_time }}</td>
+                                            <td class="border border-gray-300 py-2 px-4">
+                                                <form method="POST" action="{{ route('timers.stop', $car) }}">
+                                                    @csrf
+
+                                                    <x-secondary-button type="submit" :disabled="isset($timer->end_time)">Stop</x-secondary-button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </table>
