@@ -44,7 +44,7 @@ class TimerController extends Controller
         return redirect(route('cars.show', ['car' => $car->id]));
     }
 
-    public function pauseTimer(Request $request, Car $car, Timer $timer)
+    public function pauseTimer(Request $request, Car $car)
     {
         $timer = Timer::where('timer_id', $car->plate)->where('type', 'normal')->whereNull('end_time')->first();
         if (!$timer) {
