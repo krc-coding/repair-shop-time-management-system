@@ -13,9 +13,9 @@
                         Cars
                     </x-nav-link>
 
-                    <x-nav-link :href="route('timers.index')" :active="request()->routeIs('timers.index')">
+                    <!-- <x-nav-link :href="route('timers.index')" :active="request()->routeIs('timers.index')">
                         Timers
-                    </x-nav-link>
+                    </x-nav-link> -->
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -90,7 +90,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                        onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>

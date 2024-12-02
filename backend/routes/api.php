@@ -13,4 +13,4 @@ Route::get('/cars', [CarController::class, 'list']);
 Route::get('/timers', [TimerController::class, 'list']);
 Route::post('/timer/start/{type}/{car}', [TimerController::class, 'createTimerForCar']);
 Route::post('/timer/stop/{type}/{car}', [TimerController::class, 'stopTimer']);
-Route::get('/timer/total/{type}/{car}', [TimerController::class, 'getTimerTotal']);
+Route::get('/timer/total/{type}/{car}', [TimerController::class, 'getTimerTotal'])->name('timerTotal');

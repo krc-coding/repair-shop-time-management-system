@@ -24,7 +24,8 @@ class TimerController extends Controller
         $request->validate([
             'type' => 'in:lift,normal'
         ]);
-        $timer = Timer::where('timer_id', $car->plate)->whereNull('end_time')->first();
+
+        $timer = Timer::where('timer_id', $car->plate)->where('type', $type)->whereNull('end_time')->first();
         if ($timer) {
             $timer->end_time = now();
             $timer->save();
@@ -37,6 +38,7 @@ class TimerController extends Controller
         ]);
         return response()->json($timer->toArray(), 201);
     }
+
     public function stopTimer(Request $request, string $type, Car $car)
     {
         $request->merge([
@@ -68,18 +70,19 @@ class TimerController extends Controller
 
         $totalDiffInSeconds = 0;
         $timers->each(function (Timer $timer) use (&$totalDiffInSeconds) {
-            Log::debug('timer', $timer->toArray());
             $startTime = Carbon::parse($timer->start_time);
             $endTime = Carbon::parse($timer->end_time);
-            Log::debug($startTime);
-            Log::debug($endTime);
             $diff = $startTime->diff($endTime);
-
             $totalDiffInSeconds += $diff->totalSeconds;
-            Log::debug('diff', [$diff]);
-            Log::debug('total diff', [$totalDiffInSeconds]);
         });
 
         return response()->json(['total' => $totalDiffInSeconds]);
     }
+
+    // public function toggleLiftTimer(Request $request, int $station) {
+    //     $car = Car::where('station', $station);
+
+
+    //     return response()->json(['total' => $totalDiffInSeconds]);
+    // }
 }

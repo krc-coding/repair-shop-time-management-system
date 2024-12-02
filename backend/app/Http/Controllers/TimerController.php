@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Timer;
 use App\Models\Car;
+use Illuminate\Support\Facades\DB;
 
 class TimerController extends Controller
 {
@@ -21,7 +22,7 @@ class TimerController extends Controller
             'type' => 'in:lift,normal'
         ]);
 
-        $timer = Timer::where('timer_id', $car->plate)->whereNull('end_time')->first();
+        $timer = Timer::where('timer_id', $car->plate)->where('type', $request->input('type'))->whereNull('end_time')->first();
         if ($timer) {
             $timer->end_time = now();
             $timer->save();
@@ -34,7 +35,33 @@ class TimerController extends Controller
             'end_time' => null,
         ]);
 
-        return redirect(route('cars.index') . '#timers' . $car->id);
+        DB::table('heartbeat')->insert([
+            'car_id' => $car->id,
+            'commands' => json_encode(['timer' => 'start']),
+            'station' => $car->station
+        ]);
+
+        return redirect(route('cars.show', ['car' => $car->id]));
+    }
+
+    public function pauseTimer(Request $request, Car $car, Timer $timer)
+    {
+        $timer = Timer::where('timer_id', $car->plate)->where('type', 'normal')->whereNull('end_time')->first();
+        if (!$timer) {
+            return redirect()->back()->withErrors('No active timer');
+        }
+
+
+        $timer->end_time = now();
+        $timer->save();
+
+        DB::table('heartbeat')->insert([
+            'car_id' => $car->id,
+            'commands' => json_encode(['timer' => 'pause']),
+            'station' => $car->station
+        ]);
+
+        return redirect(route('cars.show', ['car' => $car->id]));
     }
 
     public function stopTimer(Request $request, Car $car)
@@ -47,9 +74,10 @@ class TimerController extends Controller
         if (!$timer) {
             return redirect()->back()->withErrors('No active timer');
         }
+
         $timer->end_time = now();
         $timer->save();
 
-        return redirect(route('cars.index') . '#timers' . $car->id);
+        return redirect(route('cars.show', ['car' => $car->id]));
     }
 }

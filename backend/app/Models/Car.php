@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Car extends Model
 {
-    protected $fillable = ['plate', 'status', 'notes'];
+	protected $fillable = ['plate', 'status', 'notes', 'station'];
 
 	public function timers()
 	{

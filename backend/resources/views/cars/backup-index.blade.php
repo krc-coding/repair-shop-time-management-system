@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Car management') }}
+            {{ __('Cars') }}
         </h2>
     </x-slot>
 
@@ -32,33 +32,17 @@
         <div class="max-w-7xl mx-auto bg-white mt-4 shadow rounded">
             @foreach ($cars as $car)
             <div class="py-4 px-6 flex gap-4 items-center">
-                <span>Car: {{ $car->plate }}</span>
-                <div class="flex-1"></div>
-                <span>Status: {{ $car->status }}</span>
+                <span>{{ $car->plate }}</span>
 
                 <div class="flex-1"></div>
 
-                <x-secondary-button
-                    onclick="window.location.href='{{ url('/car/' . $car->id) }}'"
-                    class="details-btn"
-                    style="
-                border: 1px solid black; 
-                background-color: white; 
-                color: black; 
-                padding: 5px 10px; 
-                cursor: pointer;">
-                    Details
-                </x-secondary-button>
-
-                <div class="flex-1"></div>
-
-                <!-- <div onclick="timers{{ $car->id }}.style.display = getComputedStyle(timers{{ $car->id }}).display === 'block' ? 'none' : 'block'" class="flex gap-2 cursor-pointer select-none">
+                <div onclick="timers{{ $car->id }}.style.display = getComputedStyle(timers{{ $car->id }}).display === 'block' ? 'none' : 'block'" class="flex gap-2 cursor-pointer select-none">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
 
                     Timers
-                </div> -->
+                </div>
 
                 <form method="POST" action="{{ route('cars.unregister', $car) }}">
                     @csrf
